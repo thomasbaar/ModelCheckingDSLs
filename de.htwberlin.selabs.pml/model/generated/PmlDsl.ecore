@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="pmlDsl" nsURI="http://www.htwberlin.de/selabs/pml/PmlDsl" nsPrefix="pmlDsl">
+  <eClassifiers xsi:type="ecore:EClass" name="PmlModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="decls" upperBound="-1"
+        eType="#//Declaration" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="i" eType="#//InitDecl"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Declaration"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LitDecl" eSuperTypes="#//Declaration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lits" upperBound="-1" eType="#//Literal"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Literal" eSuperTypes="#//Symbol"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DFuncDecl" eSuperTypes="#//Declaration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dfunc" eType="#//DFunc"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="paras" upperBound="-1"
+        eType="#//Para" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" eType="#//Fml" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DFunc" eSuperTypes="#//Symbol"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ArrDecl" eSuperTypes="#//Declaration">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="etype" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="arr" eType="#//Arr" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Arr">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Para" eSuperTypes="#//Symbol"/>
+  <eClassifiers xsi:type="ecore:EClass" name="VarDecl" eSuperTypes="#//Declaration">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="v" eType="#//Var" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Var" eSuperTypes="#//Symbol #//VarSymbol"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Fml"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Symbol">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IFuncDecl" eSuperTypes="#//Declaration">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ifunc" eType="#//IFunc"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="paras" upperBound="-1"
+        eType="#//Para" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" eType="#//StmtSequence"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IFunc" eSuperTypes="#//Symbol"/>
+  <eClassifiers xsi:type="ecore:EClass" name="StmtSequence">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="seq" upperBound="-1" eType="#//Stmt"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Stmt">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ic" upperBound="-1" eType="#//IfCond"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="else" eType="#//StmtSequence"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="msg" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="args" unique="false" upperBound="-1"
+        eType="#//Para"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="i" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IfCond">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cond" eType="#//Fml" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="then" eType="#//StmtSequence"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AssignmentStmt" eSuperTypes="#//Stmt">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lhs" eType="#//Lhs" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rhs" eType="#//Fml" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Lhs">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="arr" eType="#//Arr"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="idx" eType="#//Fml" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="v" eType="#//VarSymbol"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VarSymbol"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DoStmt" eSuperTypes="#//Stmt">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dc" upperBound="-1" eType="#//DoCond"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DoCond">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cond" eType="#//Fml" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" eType="#//StmtSequence"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WrappedStmt" eSuperTypes="#//Stmt">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" eType="#//StmtSequence"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InitDecl">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="locals" upperBound="-1"
+        eType="#//LVarDecl" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" eType="#//StmtSequence"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LVarDecl">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="lv" eType="#//LVar" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="init" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LVar" eSuperTypes="#//Symbol #//VarSymbol"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OrFml" eSuperTypes="#//Fml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//Fml" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//Fml" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AndFml" eSuperTypes="#//Fml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//Fml" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//Fml" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BoolConstant" eSuperTypes="#//Fml">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompareFml" eSuperTypes="#//Fml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//Fml" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="op" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//Fml" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PlusMinus" eSuperTypes="#//Fml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//Fml" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="op" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//Fml" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MultDiv" eSuperTypes="#//Fml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//Fml" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="op" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//Fml" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Compound" eSuperTypes="#//Fml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="t" eType="#//Fml" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IntConstant" eSuperTypes="#//Fml">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ArrAccess" eSuperTypes="#//Fml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="arr" eType="#//Arr"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="i" eType="#//Fml" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SymbolRef" eSuperTypes="#//Fml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sym" eType="#//Symbol"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="args" upperBound="-1" eType="#//Fml"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AtomStmt" eSuperTypes="#//Stmt"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IFuncAcc" eSuperTypes="#//Stmt">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="iFunc" eType="#//IFunc"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="iargs" upperBound="-1"
+        eType="#//Fml" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

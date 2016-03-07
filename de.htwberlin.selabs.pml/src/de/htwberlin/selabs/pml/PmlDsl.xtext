@@ -1,0 +1,189 @@
+grammar de.htwberlin.selabs.pml.PmlDsl with org.eclipse.xtext.common.Terminals
+
+generate pmlDsl "http://www.htwberlin.de/selabs/pml/PmlDsl"
+
+PmlModel:
+	decls+=Declaration*
+	i=InitDecl?;
+	
+Declaration:
+	LitDecl | DFuncDecl | ArrDecl | VarDecl | IFuncDecl;
+
+	
+LitDecl:
+	'mtype' '=' '{' lits+=Literal (',' lits+=Literal)* '}' ';' 
+;	
+
+Literal:
+	name=ID
+;
+
+// #define function  declaration (without closing ';'
+
+DFuncDecl : 
+	'#define' dfunc=DFunc (=> '(' paras+=Para (',' paras+=Para) ')')? '(' body=Fml ')'
+;
+
+DFunc:
+	name=ID
+;
+
+ArrDecl:
+	etype=BasicType arr=Arr '[' INT ']' ';' //only consider int-array with concrete length
+;
+
+Arr: name=ID;
+
+Para:
+	name=ID
+;
+
+VarDecl:
+	type=BasicType v=Var '=' INT ';'
+;
+
+Var:
+	name=ID
+;
+
+BasicType: 'mtype' | 'int' | 'byte' | 'bit';
+
+//
+// Formulas in #define  (and if-statements)
+//
+
+Fml:
+	OrFml;
+	
+OrFml returns Fml:
+	AndFml ({OrFml.left=current} '||' right=AndFml)*
+;
+
+AndFml returns Fml:
+	AtomicFml ({AndFml.left=current} '&&' right=AtomicFml)*
+;
+
+AtomicFml returns Fml:
+	CompareFml
+	| {BoolConstant} value=('true'|'false') ;
+
+CompareFml returns Fml:
+	Term ({CompareFml.left=current} op=('=='| '!=' | '<' | '<=' | '>' | '>=' ) right=Term)?
+;
+
+Term returns Fml: PlusMinus;
+
+PlusMinus returns Fml:
+	MultDiv ({PlusMinus.left=current} op=('+' | '-') right=MultDiv)*
+;
+
+MultDiv returns Fml:
+	Atomic ({MultDiv.left=current} op=('*'
+		//|'/'  // for the moment, we do not support division, since we had to argue which division we mean (note that terms are of type int)
+	) right=Atomic)*
+;
+
+Atomic returns Fml: // returns Fml due to Compound
+	  {Compound} '(' t=Fml ')'  // 
+	| {IntConstant} value=INT
+	| {ArrAccess} arr=[Arr]'['i=Fml']'
+	| {SymbolRef} sym=[Symbol] ('(' args+=Fml (',' args+=Fml)* ')')? 
+;
+	
+	
+Symbol: Literal | Para | DFunc | IFunc | LVar | Var;
+
+
+QualifiedName: ID ('.' ID)*;
+
+//
+// inline functions
+//
+
+IFuncDecl : 
+	'inline' ifunc=IFunc '(' paras+=Para? (',' paras+=Para)* ')' '{'body=StmtSequence '}'
+;
+
+IFunc :
+	name=ID
+;
+
+StmtSequence :
+	seq+=Stmt+
+;
+Stmt :
+	IfStmt| AtomStmt | AssignmentStmt | DoStmt | WrappedStmt
+;
+
+IfStmt returns Stmt: //TODO: do we really need returns here???
+	'if' ic+=IfCond+
+	     ('::' 'else' '->' else=StmtSequence)?  //TODO: Dangling else-problem
+	'fi' ';'     
+;
+
+IfCond:
+	'::' cond=Fml '->' then=StmtSequence
+;
+
+AtomStmt returns Stmt:
+	'printf' '(' msg=STRING (',' args+=[Para])* ')' ';'
+	| 'assert' '(' i=INT ')' ';'
+	| 'skip' {AtomStmt} ';'
+	| 'break' {AtomStmt} ';'
+	| IFuncAcc
+;
+
+IFuncAcc returns Stmt:
+	// Strange: without action {IFuncAcc} Xtext does not generate class for this rule
+	{IFuncAcc} iFunc=[IFunc] '(' iargs+=Fml? (',' iargs+=Fml)*')' ';'
+;
+
+
+AssignmentStmt:
+	 lhs=Lhs '=' rhs=Fml ';'
+;
+
+Lhs:
+	arr=[Arr]'['idx=Fml']'
+	| v=[VarSymbol]
+;
+
+VarSymbol :
+	Var | LVar
+;
+
+
+DoStmt:
+	'do' dc+=DoCond+
+	 ('::' 'else' '->' else=StmtSequence)?  
+	'od' ';' 
+;
+
+DoCond:
+	'::' cond=Fml '->' body=StmtSequence
+;
+
+
+WrappedStmt:
+	('atomic' | 'd_step') '{' body=StmtSequence '}'
+;
+
+//
+// init()
+//
+
+InitDecl:
+	'init' '{'
+	locals+=LVarDecl+
+	body=StmtSequence
+	'}'
+;
+
+LVarDecl:
+	'local' type=BasicType lv=LVar '=' init=INT ';'
+;
+
+LVar:
+	name=ID
+;
+

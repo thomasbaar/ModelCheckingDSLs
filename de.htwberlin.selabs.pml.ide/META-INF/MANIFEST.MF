@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: de.htwberlin.selabs.pml.ide
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: de.htwberlin.selabs.pml.ide; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: de.htwberlin.selabs.pml,
+ org.eclipse.xtext.ide,
+ org.eclipse.xtext.xbase.ide
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: de.htwberlin.selabs.pml.ide.contentassist.antlr,
+ de.htwberlin.selabs.pml.ide.contentassist.antlr.internal
+
