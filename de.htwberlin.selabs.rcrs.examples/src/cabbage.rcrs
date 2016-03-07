@@ -1,0 +1,18 @@
+project cabbage // opens a namespace
+
+// sorts of elements (boat is standard)
+types Man Wolf Goat Cabb
+ 
+// Boat - specification (always two places: driver + 1 passenger; driver always needed)
+boat_drivers Man // 
+       
+// dangerous situations for river side + boat
+dangerous 
+CabbageUnsafe : !Man && Goat && Cabb ;
+
+GoatUnsafe : !Man && Wolf && Goat; 
+                   
+ 
+
+
+

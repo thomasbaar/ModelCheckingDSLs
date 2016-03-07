@@ -1,0 +1,28 @@
+/**
+ * This is the japanese puzzle.
+ * 
+ * You can try variants, e.g. three Boys (does not work unless 'BoysUnsafe' is commented out
+ */
+
+
+project japanese  //opens a namespace
+
+// sorts of elements (boat is standard)
+types Cop Dad Mom Criminal Boy(2) Girl(2) 
+   
+// Boat - specification (always two places: driver + 1 passenger; driver always needed)
+boat_drivers Cop Dad Mom                           //Boy // syntax error on types
+           
+// dangerous situations for river side + boat
+dangerous
+CriminalUnsafe : Criminal && !Cop && 
+            (Dad || Mom || Boy || Girl) ;
+
+BoysUnsafe : Mom && !Dad && Boy ; 
+
+GirlsUnsafe : Dad && !Mom && Girl ;
+                  
+
+
+
+

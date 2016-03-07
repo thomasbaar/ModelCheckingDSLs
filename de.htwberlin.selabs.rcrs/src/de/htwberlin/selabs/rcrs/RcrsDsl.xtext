@@ -1,0 +1,48 @@
+grammar de.htwberlin.selabs.rcrs.RcrsDsl with org.eclipse.xtext.common.Terminals
+
+generate rcrsDsl "http://www.htwberlin.de/selabs/rcrs/RcrsDsl"
+
+RcrsModel:
+	'project' name=ID  // serves as namespace; avoid cross-refs to Types from other files
+	td=TypeDecl
+	bd=BoatDecl
+	dd=DangerousDecl;
+
+TypeDecl:
+	'types' types+=Type+
+;
+
+Type:
+	name=ID ('(' num=INT ')')?
+;
+
+BoatDecl:
+	'boat_drivers' {BoatDecl} drivers+=[Type]+
+;
+
+DangerousDecl:
+	'dangerous' constraints+=Constraint+
+;
+
+Constraint:
+	name=ID ':' body=Fml ';'
+;
+
+Fml:
+	OrFml
+;
+
+OrFml returns Fml:
+	AndFml ({OrFml.left=current} '||' right=AndFml)*
+;
+
+AndFml returns Fml:
+	AtomicFml ({AndFml.left=current} '&&' right=AtomicFml)*
+;
+	
+AtomicFml returns Fml:
+	  {Compound} '(' t=Fml ')'  
+	| {Plain} v=[Type]
+	| {Neg} '!' nv=[Type]
+;	
+

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="rcrsDsl" nsURI="http://www.htwberlin.de/selabs/rcrs/RcrsDsl"
+    nsPrefix="rcrsDsl">
+  <eClassifiers xsi:type="ecore:EClass" name="RcrsModel">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="td" eType="#//TypeDecl"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bd" eType="#//BoatDecl"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dd" eType="#//DangerousDecl"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TypeDecl">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="types" upperBound="-1"
+        eType="#//Type" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Type">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="num" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="BoatDecl">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="drivers" unique="false"
+        upperBound="-1" eType="#//Type"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DangerousDecl">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="constraints" upperBound="-1"
+        eType="#//Constraint" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Constraint">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" eType="#//Fml" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Fml"/>
+  <eClassifiers xsi:type="ecore:EClass" name="OrFml" eSuperTypes="#//Fml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//Fml" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//Fml" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AndFml" eSuperTypes="#//Fml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="left" eType="#//Fml" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="right" eType="#//Fml" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Compound" eSuperTypes="#//Fml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="t" eType="#//Fml" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Plain" eSuperTypes="#//Fml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="v" eType="#//Type"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Neg" eSuperTypes="#//Fml">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nv" eType="#//Type"/>
+  </eClassifiers>
+</ecore:EPackage>
