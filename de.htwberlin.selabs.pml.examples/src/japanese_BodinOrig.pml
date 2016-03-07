@@ -1,4 +1,4 @@
-//  status: works, taks 0.4 sec
+//  status: works, takes 0.4 sec
 // basically the original solution from Evgeny Bodin with 
 // one tiny tweak for pml-editor (removed \ - line ends within #define)
 
